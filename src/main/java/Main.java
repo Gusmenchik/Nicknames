@@ -2,7 +2,6 @@ import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Main {
-
     private static final AtomicInteger beautifulWordsLength3 = new AtomicInteger(0);
     private static final AtomicInteger beautifulWordsLength4 = new AtomicInteger(0);
     private static final AtomicInteger beautifulWordsLength5 = new AtomicInteger(0);
@@ -17,9 +16,9 @@ public class Main {
         }
 
         // Запуск потоков для проверки каждого критерия
-        Thread palindromeThread = new Thread(() -> countBeautifulWords(texts, 3, Main::isPalindrome));
-        Thread singleLetterThread = new Thread(() -> countBeautifulWords(texts, 4, Main::isSingleLetter));
-        Thread ascendingOrderThread = new Thread(() -> countBeautifulWords(texts, 5, Main::isAscendingOrder));
+        Thread palindromeThread = new Thread(() -> countBeautifulWords(texts, Main::isPalindrome));
+        Thread singleLetterThread = new Thread(() -> countBeautifulWords(texts, Main::isSingleLetter));
+        Thread ascendingOrderThread = new Thread(() -> countBeautifulWords(texts, Main::isAscendingOrder));
 
         palindromeThread.start();
         singleLetterThread.start();
@@ -48,9 +47,10 @@ public class Main {
         return text.toString();
     }
 
-    public static void countBeautifulWords(String[] texts, int length, WordChecker wordChecker) {
+    public static void countBeautifulWords(String[] texts, WordChecker wordChecker) {
         for (String text : texts) {
-            if (text.length() == length && wordChecker.check(text)) {
+            if (wordChecker.check(text)) {
+                int length = text.length();
                 switch (length) {
                     case 3:
                         beautifulWordsLength3.incrementAndGet();
